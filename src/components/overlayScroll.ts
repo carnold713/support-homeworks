@@ -1,32 +1,50 @@
 /*
   Overlay scrollbars. Native scrollbars are hidden everywhere (styles.css), so they never reserve
-  gutter width or push the design over. Instead, a narrow thumb is drawn on top of whichever
-  element is scrolling or hovered. It fades out after a moment, and it can be dragged.
-  Swipe carousels that use dot navigation (EXCLUDE) get no thumb.
+  gutter width or push the design over. Instead, a narrow thumb is drawn on top of the scrollable
+  area under the mouse.
+
+  Visibility is instant, with no fade (Collin, 2026-11-03): the thumb shows only while the mouse is
+  over that scroll area (or dragging its thumb), and hides the moment the mouse leaves, the page
+  scrolls the area out from under the cursor, or the area closes/unmounts.
+  If the mouse is over no nested scroll area, the page's own thumb shows.
+  On touch devices the thumb shows while a finger scrolls and hides as soon as scrolling stops.
+  Swipe carousels that use dot navigation (EXCLUDE) never get a thumb.
 */
 const EXCLUDE = ".tt-card-row, .tool-grid, [data-no-thumb]";
 const SIZE = 6; // thumb thickness
 const INSET = 3; // gap from the edge
 const MIN = 32; // minimum thumb length
-const HIDE_MS = 900;
+const TOUCH_HIDE_MS = 250;
 
 type Axis = "y" | "x";
-type Bar = { el: HTMLElement; axis: Axis; thumb: HTMLDivElement; timer?: number; dragging?: boolean };
+type Bar = { el: HTMLElement; axis: Axis; thumb: HTMLDivElement };
 
 const bars = new Map<string, Bar>();
 let ids = 0;
 const idOf = (el: HTMLElement) => (el.dataset.ovs ??= String(++ids));
+const root = () => document.scrollingElement as HTMLElement;
+
+let mouse: { x: number; y: number } | null = null; // null = mouse is outside the window / not a mouse
+let dragging: Bar | null = null;
+let touchTarget: HTMLElement | null = null;
+let touchTimer = 0;
 
 function scrollable(el: HTMLElement, axis: Axis) {
-  const cs = getComputedStyle(el);
-  const ov = axis === "y" ? cs.overflowY : cs.overflowX;
-  const isRoot = el === document.scrollingElement;
-  if (!isRoot && ov !== "auto" && ov !== "scroll") return false;
+  const isRoot = el === root();
+  if (isRoot) {
+    // page is scroll-locked while an overlay is open: no page thumb then
+    const locked = (n: HTMLElement) => getComputedStyle(n)[axis === "y" ? "overflowY" : "overflowX"] === "hidden";
+    if (locked(document.body) || locked(document.documentElement)) return false;
+  } else {
+    const cs = getComputedStyle(el);
+    const ov = axis === "y" ? cs.overflowY : cs.overflowX;
+    if (ov !== "auto" && ov !== "scroll") return false;
+  }
   return axis === "y" ? el.scrollHeight > el.clientHeight + 1 : el.scrollWidth > el.clientWidth + 1;
 }
 
 function rectOf(el: HTMLElement) {
-  if (el === document.scrollingElement) return { top: 0, left: 0, width: window.innerWidth, height: window.innerHeight };
+  if (el === root()) return { top: 0, left: 0, width: window.innerWidth, height: window.innerHeight };
   return el.getBoundingClientRect();
 }
 
@@ -48,13 +66,7 @@ function place(bar: Bar) {
   }
 }
 
-function hideLater(bar: Bar) {
-  clearTimeout(bar.timer);
-  bar.timer = window.setTimeout(() => !bar.dragging && bar.thumb.classList.remove("on"), HIDE_MS);
-}
-
-function show(el: HTMLElement, axis: Axis) {
-  if (!el.isConnected || el.closest(EXCLUDE) === el || !scrollable(el, axis)) return;
+function barFor(el: HTMLElement, axis: Axis): Bar {
   const key = idOf(el) + axis;
   let bar = bars.get(key);
   if (!bar) {
@@ -65,9 +77,41 @@ function show(el: HTMLElement, axis: Axis) {
     bars.set(key, bar);
     drag(bar);
   }
-  place(bar);
-  bar.thumb.classList.add("on");
-  hideLater(bar);
+  return bar;
+}
+
+// Nearest scroll area (not a dot carousel) that contains the node; the page if none.
+function scrollerAt(node: Element | null): HTMLElement {
+  let n = node as HTMLElement | null;
+  while (n && n !== document.body && n !== document.documentElement) {
+    if (!n.classList.contains("ovs-thumb") && !n.matches(EXCLUDE) && (scrollable(n, "y") || scrollable(n, "x"))) return n;
+    n = n.parentElement;
+  }
+  return root();
+}
+
+// Decide which single scroll area shows its thumb right now, and show/hide every thumb instantly.
+function update() {
+  let target: HTMLElement | null = null;
+  if (dragging) target = dragging.el;
+  else if (touchTarget) target = touchTarget;
+  else if (mouse) {
+    const hit = document.elementFromPoint(mouse.x, mouse.y);
+    target = hit?.classList.contains("ovs-thumb") ? [...bars.values()].find((b) => b.thumb === hit)?.el ?? null : scrollerAt(hit);
+  }
+  if (target && target.isConnected) {
+    for (const axis of ["y", "x"] as Axis[]) if (scrollable(target, axis)) barFor(target, axis);
+  }
+  for (const [key, bar] of bars) {
+    if (!bar.el.isConnected) {
+      bar.thumb.remove();
+      bars.delete(key);
+      continue;
+    }
+    const on = bar.el === target && scrollable(bar.el, bar.axis);
+    bar.thumb.classList.toggle("on", on);
+    if (on) place(bar);
+  }
 }
 
 function drag(bar: Bar) {
@@ -80,7 +124,7 @@ function drag(bar: Bar) {
     const r = rectOf(el);
     const track = (axis === "y" ? r.height : r.width) - INSET * 2 - (axis === "y" ? thumb.offsetHeight : thumb.offsetWidth);
     const max = axis === "y" ? el.scrollHeight - el.clientHeight : el.scrollWidth - el.clientWidth;
-    bar.dragging = true;
+    dragging = bar;
     thumb.classList.add("drag");
     thumb.setPointerCapture(e.pointerId);
     const move = (ev: PointerEvent) => {
@@ -89,72 +133,67 @@ function drag(bar: Bar) {
       if (axis === "y") el.scrollTop = v;
       else el.scrollLeft = v;
     };
-    const up = () => {
-      bar.dragging = false;
+    const up = (ev: PointerEvent) => {
+      dragging = null;
       thumb.classList.remove("drag");
       thumb.removeEventListener("pointermove", move);
       thumb.removeEventListener("pointerup", up);
       thumb.removeEventListener("pointercancel", up);
-      hideLater(bar);
+      mouse = { x: ev.clientX, y: ev.clientY };
+      update();
     };
     thumb.addEventListener("pointermove", move);
     thumb.addEventListener("pointerup", up);
     thumb.addEventListener("pointercancel", up);
   });
-  bar.thumb.addEventListener("pointerenter", () => {
-    clearTimeout(bar.timer);
-    bar.thumb.classList.add("on");
-  });
-  bar.thumb.addEventListener("pointerleave", () => hideLater(bar));
-}
-
-function both(el: HTMLElement) {
-  show(el, "y");
-  show(el, "x");
-}
-
-// Re-place every visible thumb (a scroller inside a scrolling page moves with it).
-function refresh() {
-  for (const [key, bar] of bars) {
-    if (!bar.el.isConnected) {
-      bar.thumb.remove();
-      bars.delete(key);
-    } else if (bar.thumb.classList.contains("on")) place(bar);
-  }
 }
 
 let raf = 0;
-let hoverTarget: EventTarget | null = null;
-function onHover() {
-  raf = 0;
-  let n = hoverTarget as HTMLElement | null;
-  while (n && n !== document.body && n !== document.documentElement) {
-    if (n.nodeType === 1 && (scrollable(n, "y") || scrollable(n, "x"))) {
-      both(n);
-      return;
-    }
-    n = n.parentElement;
-  }
-}
+const schedule = () => {
+  if (!raf) raf = requestAnimationFrame(() => {
+    raf = 0;
+    update();
+  });
+};
 
 export function installOverlayScrollbars() {
-  document.addEventListener(
-    "scroll",
-    (e) => {
-      const t = e.target === document ? (document.scrollingElement as HTMLElement) : (e.target as HTMLElement);
-      if (t) both(t);
-      refresh();
-    },
-    { capture: true, passive: true }
-  );
   document.addEventListener(
     "pointermove",
     (e) => {
       if (e.pointerType !== "mouse") return;
-      hoverTarget = e.target;
-      if (!raf) raf = requestAnimationFrame(onHover);
+      mouse = { x: e.clientX, y: e.clientY };
+      schedule();
     },
     { passive: true }
   );
-  window.addEventListener("resize", refresh);
+  // Mouse left the window: hide everything.
+  document.documentElement.addEventListener("mouseleave", () => {
+    mouse = null;
+    schedule();
+  });
+  window.addEventListener("blur", () => {
+    mouse = null;
+    schedule();
+  });
+  // Scrolling moves areas under a still cursor, so re-check what's under it every scroll.
+  document.addEventListener(
+    "scroll",
+    (e) => {
+      if (!mouse && !dragging) {
+        // touch scrolling: show the area being scrolled, hide shortly after it stops
+        const t = e.target === document ? root() : (e.target as HTMLElement);
+        if (t && !(t instanceof HTMLElement && t.matches?.(EXCLUDE))) touchTarget = t;
+        clearTimeout(touchTimer);
+        touchTimer = window.setTimeout(() => {
+          touchTarget = null;
+          schedule();
+        }, TOUCH_HIDE_MS);
+      }
+      schedule();
+    },
+    { capture: true, passive: true }
+  );
+  window.addEventListener("resize", schedule);
+  // Panels and overlays opening/closing: re-check so a closed area's thumb disappears at once.
+  new MutationObserver(schedule).observe(document.body, { childList: true, subtree: true });
 }

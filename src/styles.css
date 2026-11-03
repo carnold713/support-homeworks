@@ -780,7 +780,7 @@ html.hw-framed, html.hw-framed body { height: 100%; overflow: hidden; background
    components/overlayScroll.ts draws a narrow thumb on top while scrolling or hovering. */
 html, body, * { scrollbar-width: none; }
 html::-webkit-scrollbar, body::-webkit-scrollbar, *::-webkit-scrollbar { display: none; width: 0; height: 0; }
-.ovs-thumb { position: fixed; z-index: 10000; border-radius: 999px; background: rgba(18,18,18,.38); opacity: 0; pointer-events: none; transition: opacity .25s ease, background-color .15s ease; touch-action: none; }
+.ovs-thumb { position: fixed; z-index: 10000; border-radius: 999px; background: rgba(18,18,18,.38); opacity: 0; pointer-events: none; touch-action: none; }
 .ovs-thumb.on { opacity: 1; pointer-events: auto; }
 .ovs-thumb:hover, .ovs-thumb.drag { background: rgba(18,18,18,.6); }
 
