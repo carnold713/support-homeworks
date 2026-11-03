@@ -70,12 +70,21 @@ function Specs({ product }: { product: Product }) {
   );
 }
 
-function DownloadBar({ count, onDownload }: { count: number; onDownload: () => void }) {
+function DownloadBar({ count, onDownload, onClear }: { count: number; onDownload: () => void; onClear: () => void }) {
   return (
     <div className="download-bar">
-      <span>{count ? `${plural(count, "doc")} selected` : "Select docs to download"}</span>
+      {count ? (
+        <span className="download-count">
+          {plural(count, "document")} selected
+          <button type="button" className="clear-link" onClick={onClear}>
+            Clear
+          </button>
+        </span>
+      ) : (
+        <span>Select docs to download</span>
+      )}
       <Button variant="primary" size="md" disabled={!count} onClick={onDownload}>
-        Download
+        {count ? `Download (${count})` : "Download"}
       </Button>
     </div>
   );
@@ -399,7 +408,7 @@ export function FindProducts() {
               <Specs product={flyout} />
               <DocList product={flyout} selected={flyDocs.sel} toggle={flyDocs.toggle} />
             </div>
-            <DownloadBar count={flyDocs.sel.size} onDownload={() => fakeDownload(flyDocs.sel.size)} />
+            <DownloadBar count={flyDocs.sel.size} onDownload={() => fakeDownload(flyDocs.sel.size)} onClear={flyDocs.clear} />
             <div className="panel-foot">
               <Button variant="primary" size="md" full>
                 {cfg.visitProductLabel}
@@ -446,7 +455,7 @@ export function FindProducts() {
             ))}
           </div>
         </div>
-        <DownloadBar count={cmpDocs.sel.size} onDownload={() => fakeDownload(cmpDocs.sel.size)} />
+        <DownloadBar count={cmpDocs.sel.size} onDownload={() => fakeDownload(cmpDocs.sel.size)} onClear={cmpDocs.clear} />
       </Overlay>
     </section>
   );
