@@ -796,5 +796,6 @@ html::-webkit-scrollbar, body::-webkit-scrollbar, *::-webkit-scrollbar { display
 .docs-layout .fp-panel .checkbox-info { width: 16px; height: 16px; margin-top: 0; }
 .fp .results-header.stacked .results-meta { align-items: center; height: 33px; box-sizing: border-box; }
 .fp .results-header.stacked .results-meta .text-link { height: 16px; padding: 2px 0; box-sizing: border-box; }
-.docs .results-header { margin-bottom: 47px; }
+/* Figma 12595:246936 (updated 2026-11-03): 24px from the divider to the Filters bar / drawer at every breakpoint */
+.docs .results-header { margin-bottom: 24px; }
 .doc-table th { height: 47px; }
