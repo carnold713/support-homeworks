@@ -253,7 +253,7 @@ hr.divider { border: 0; border-top: 1px solid var(--line); margin: 0 var(--margi
 .pager-btn { width: 36px; height: 36px; border-radius: 18px; background: var(--blue); color: var(--white); display: inline-flex; align-items: center; justify-content: center; }
 .pager-btn:disabled { background: var(--blue-soft); cursor: default; }
 .v-div { width: 1px; height: 24px; background: var(--border); margin: 0 4px; }
-.compare-body { background: var(--bg); padding: 0 36px 24px; }
+.compare-body { background: var(--bg); padding: 0 36px 24px; flex: 0 1 auto; min-height: 0; }
 @media (max-width: 767px) { .compare-body { padding: 0 16px 16px; } }
 .compare-row { display: grid; gap: 20px; padding-top: 4px; }
 .compare-card { background: var(--white); border-radius: 4px; box-shadow: 0 1px 4px rgba(0, 0, 0, .08); padding: 24px 20px; display: flex; flex-direction: column; align-items: flex-start; }

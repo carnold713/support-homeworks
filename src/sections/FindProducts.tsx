@@ -419,7 +419,7 @@ export function FindProducts() {
       </Overlay>
 
       {/* -------- compare specs & documents sheet -------- */}
-      <Overlay open={compare} onClose={closeCompare} side="bottom" height={b === "mobile" ? "92vh" : "84vh"}>
+      <Overlay open={compare} onClose={closeCompare} side="bottom" maxHeight={b === "mobile" ? "92vh" : "84vh"}>
         <div className="panel-head">
           <h3>{sheetTitle}</h3>
           <div className="panel-head-actions">

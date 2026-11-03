@@ -123,6 +123,7 @@ export function Overlay({
   children,
   width,
   height,
+  maxHeight,
 }: {
   open: boolean;
   onClose: () => void;
@@ -130,6 +131,8 @@ export function Overlay({
   children: ReactNode;
   width?: number;
   height?: string;
+  /** bottom sheets: grow to fit their content up to this height, then scroll */
+  maxHeight?: string;
 }) {
   useEffect(() => {
     if (!open) return;
@@ -148,7 +151,7 @@ export function Overlay({
       <div className="scrim" onClick={onClose} />
       <div
         className={`panel panel-${side}`}
-        style={side === "right" ? { width: width ?? 434 } : { height: height ?? "auto" }}
+        style={side === "right" ? { width: width ?? 434 } : maxHeight ? { maxHeight } : { height: height ?? "auto" }}
       >
         {children}
       </div>
