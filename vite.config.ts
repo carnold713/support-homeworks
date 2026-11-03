@@ -4,7 +4,8 @@ import react from "@vitejs/plugin-react";
 export default defineConfig({
   plugins: [react()],
   // The site lives at /homeworks-desktop/ and draws its own fixed 1440x1024 frame (see src/main.tsx).
-  base: process.env.FIGMA_PUBLIC_URL || "/homeworks-desktop/",
+  // Relative base so the same build works wherever it is served: Railway (/homeworks-desktop/), the site root, or a Figma Make published URL.
+  base: process.env.FIGMA_PUBLIC_URL || "./",
   build: { outDir: "dist/homeworks-desktop", emptyOutDir: true },
   server: {
     port: process.env.FIGMA ? Number(process.env.PORT) : 5173,
