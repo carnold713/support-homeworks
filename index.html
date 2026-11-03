@@ -4,11 +4,6 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>HomeWorks Support · Prototype</title>
-    <script>
-      // The prototype is only ever shown inside the fixed 1440 x 1024 frame at /homeworks-desktop/.
-      // If this page is opened on its own (not inside that frame), send the browser to the frame.
-      if (window.top === window.self && !/[?&]bare\b/.test(location.search)) location.replace("/homeworks-desktop/");
-    </script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
