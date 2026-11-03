@@ -44,10 +44,10 @@ export function ContactBar() {
             <b>{c.lead}</b> {c.body}
           </p>
           <div className="contactbar-btns">
-            <Button variant="white" size="md" icon={<Headphones size={16} />} onClick={() => { const f = document.getElementById("contact-form"); f ? scrollToEl(f) : toast("Prototype: this would connect you with a Lutron specialist."); }}>
+            <Button variant="white" size="md" iconFirst icon={<Headphones size={16} />} onClick={() => { const f = document.getElementById("contact-form"); f ? scrollToEl(f) : toast("Prototype: this would connect you with a Lutron specialist."); }}>
               {c.primary}
             </Button>
-            <Button variant="whiteOutline" size="md" icon={<Video size={16} />} onClick={() => toast("Prototype: a video chat request would start here.")}>
+            <Button variant="whiteOutline" size="md" iconFirst icon={<Video size={16} />} onClick={() => toast("Prototype: a video chat request would start here.")}>
               {c.secondary}
             </Button>
           </div>

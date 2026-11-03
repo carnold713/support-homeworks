@@ -28,11 +28,13 @@ type BtnProps = {
   variant?: "primary" | "outline" | "ghost" | "white" | "whiteOutline";
   size?: "sm" | "md" | "lg";
   icon?: ReactNode;
+  /** put the icon before the label (as in the contact interrupter buttons) */
+  iconFirst?: boolean;
   disabled?: boolean;
   full?: boolean;
   type?: "button" | "submit";
 };
-export function Button({ children, onClick, variant = "primary", size = "sm", icon, disabled, full, type = "button" }: BtnProps) {
+export function Button({ children, onClick, variant = "primary", size = "sm", icon, iconFirst, disabled, full, type = "button" }: BtnProps) {
   return (
     <button
       type={type}
@@ -40,8 +42,9 @@ export function Button({ children, onClick, variant = "primary", size = "sm", ic
       onClick={onClick}
       disabled={disabled}
     >
+      {iconFirst && icon}
       <span>{children}</span>
-      {icon}
+      {!iconFirst && icon}
     </button>
   );
 }

@@ -691,3 +691,29 @@ button.sr-row:hover { background: #eef5fc; }
 }
 .panel .rail-sub { margin: 0; padding: 12px; border-radius: 2px; font-size: 14px; line-height: 20px; }
 .panel .rail-sub.active { background: #e9e9e9; font-weight: 400; }
+
+/* ---------- Hero: exact values from the final component (14758:311203) ---------- */
+@media (min-width: 768px) {
+  .hero-body { padding-right: 32px; }
+  .primary-links > * { line-height: 20px; }
+  .version-link { height: 24px; line-height: 20px; }
+  .version-link svg { display: block; }
+}
+
+/* ---------- Top Topics: exact values from the final component (14758:311304) ---------- */
+@media (min-width: 768px) {
+  .tt-card, .tt-card + .tt-card { position: relative; height: 360px; min-height: 360px; margin: 0; padding: 24px; border-left: 0; }
+  .tt-card + .tt-card::before { content: ""; position: absolute; left: 0; top: 18px; bottom: 18px; width: 1px; background: var(--border); }
+  .tt-card .btn svg { width: 16px; height: 16px; }
+}
+
+/* ---------- Contact interrupter: exact values from the final component (14758:326192) ---------- */
+@media (min-width: 768px) {
+  .contactbar { padding: 24px; gap: 16px; border-radius: 4px; box-shadow: 0 3.2px 3.6px rgba(0, 0, 0, .13); }
+  .contactbar p { font-size: 16px; line-height: 24px; font-weight: 300; }
+  .contactbar p b { font-weight: 500; }
+  .contactbar-btns { gap: 16px; }
+  .contactbar-btns .btn svg { width: 16px; height: 16px; }
+}
+.contactbar .btn-white { background: #f8f8f8; color: var(--text); }
+.contactbar .btn-whiteOutline { border: 1.75px solid rgba(250, 250, 250, .9); }
