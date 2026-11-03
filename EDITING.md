@@ -49,6 +49,5 @@ In Figma Make you can also just ask the Make chat, for example: "add a product c
 
 ## Where the site lives
 
-- The prototype is at the site root `/`. Old `/homeworks-desktop/` links redirect there. The build output folder is `dist/homeworks-desktop` because the Figma Make deploy is set to that folder.
-- The page draws its own fixed 1440 × 1024 window on a near-black background (see `src/main.tsx`), with no iframe, so Figma comments on a Code layer can still reach every element. If the browser is smaller, the whole window scales down (never up), so the layout is always the 1440 desktop one.
-- Add `?bare` to the URL to see the page without the frame.
+- The prototype is at the site root `/` and is responsive (desktop, tablet, mobile). Old `/homeworks-desktop/` links redirect there.
+- The build output folder is `dist/homeworks-desktop` because the Figma Make deploy is set to that folder. Build paths are relative, so the same build works on Railway and in Figma Make.

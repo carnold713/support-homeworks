@@ -770,3 +770,4 @@ html.hw-framed, html.hw-framed body { height: 100%; overflow: hidden; background
 /* Layout breakpoints are container queries on #hw-cq, so the site responds to its 1440px frame,
    not to the browser window. */
 #hw-cq { container: hw / inline-size; }
+@container hw (max-width: 767px) { .panel-bottom .download-bar { padding: 0 24px; } }
