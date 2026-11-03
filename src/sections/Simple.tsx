@@ -68,7 +68,14 @@ export function Tools() {
         <h2 className="section-title">{t.title}</h2>
         <div className="tool-grid" ref={strip.ref} onScroll={strip.onScroll}>
           {t.cards.map((c, i) => (
-            <div key={i} className="tool-card">
+            <div
+              key={i}
+              className="tool-card"
+              role="button"
+              tabIndex={0}
+              onClick={() => toast(`Prototype: "${c.title}" would open the tool or link here. It isn't active in this prototype.`)}
+              onKeyDown={(e) => (e.key === "Enter" || e.key === " ") && (e.preventDefault(), toast(`Prototype: "${c.title}" would open the tool or link here. It isn't active in this prototype.`))}
+            >
               <div className="tool-top">
                 <img className="tool-icon" src={asset("/assets/icons/si-11.svg")} alt="" onError={(e) => ((e.target as HTMLImageElement).style.visibility = "hidden")} />
                 <div className="tool-copy">

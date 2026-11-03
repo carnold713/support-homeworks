@@ -2,6 +2,9 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App";
 import "./styles.css";
+import { installOverlayScrollbars } from "./components/overlayScroll";
+
+installOverlayScrollbars();
 
 /*
   The site is responsive (desktop, tablet, mobile). Layout breakpoints are container queries on

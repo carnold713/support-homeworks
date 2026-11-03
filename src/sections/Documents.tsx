@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { ArrowDown, ArrowUp, Download, ExternalLink, FileText, PanelLeftClose, SlidersHorizontal } from "lucide-react";
+import { ArrowDown, ArrowLeft, ArrowUp, Download, ExternalLink, FileText, SlidersHorizontal } from "lucide-react";
 import { documents, DocumentRow } from "../content/documents";
 import { site } from "../content/site";
 import {
@@ -105,7 +105,7 @@ export function Documents() {
               {open && (
                 <div className="acc-body">
                   {opts.map((o) => (
-                    <Checkbox key={o} checked={filters[g.key].includes(o)} onChange={() => toggle(g.key, o)} label={`${o} (${countFor(g.key, o)})`} />
+                    <Checkbox key={o} checked={filters[g.key].includes(o)} onChange={() => toggle(g.key, o)} label={overlay ? `${o} (${countFor(g.key, o)})` : o} info />
                   ))}
                 </div>
               )}
@@ -120,7 +120,7 @@ export function Documents() {
     <button type="button" className={`th-btn${sortCol === c ? " on" : ""}`} onClick={() => sortBy(c)}>
       {label}
       <span className="sort-arrows">
-        <ArrowDown size={11} className={sortCol === c && asc ? "on" : ""} />
+        <ArrowDown size={11} className={sortCol !== c || asc ? "on" : ""} />
         <ArrowUp size={11} className={sortCol === c && !asc ? "on" : ""} />
       </span>
     </button>
@@ -158,7 +158,7 @@ export function Documents() {
             <aside className="fp-panel">
               <div className="fp-panel-top">
                 <button type="button" className="round-btn" onClick={() => setDrawer(false)} aria-label="Close filters">
-                  <PanelLeftClose size={16} />
+                  <ArrowLeft size={20} />
                 </button>
                 <button type="button" className="tiny-link" onClick={() => setFilters(emptyFilters())}>
                   Remove All
@@ -169,9 +169,10 @@ export function Documents() {
           )}
 
           <div className="fp-results">
-            {(
+            {(!drawerShown || chips.length > 0) && (
               <div className="toolbar">
-                {(
+                {/* Figma: the Filters button is turned off while the inline filter drawer is open. */}
+                {!drawerShown && (
                   <button type="button" className="filters-btn" onClick={() => (b === "desktop" ? setDrawer(!drawer) : setSheet(true))}>
                     <SlidersHorizontal size={16} /> Filters
                     {chips.length > 0 && <span className="badge">{chips.length}</span>}

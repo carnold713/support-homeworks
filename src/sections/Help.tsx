@@ -21,7 +21,7 @@ export function Help() {
   const b = useBreakpoint();
   const top = useRef<HTMLElement>(null);
   const [sel, setSel] = useState<Sel>({ topic: null, sub: null });
-  const [open, setOpen] = useState<Set<string>>(new Set([helpTopics[0].name]));
+  const [open, setOpen] = useState<Set<string>>(new Set());
   const [sheet, setSheet] = useState(false);
   const [limit, setLimit] = useState(cfg.pageSize);
 
@@ -33,14 +33,13 @@ export function Help() {
   const choose = (s: Sel) => {
     setSel(s);
     setSheet(false);
-    if (s.topic) setOpen((o) => new Set(o).add(s.topic!));
+    if (s.topic) setOpen(new Set([s.topic]));
+    // Jump back to the top of the Help & FAQs component so the new list is read from its start.
+    requestAnimationFrame(() => top.current && scrollToEl(top.current));
   };
   const toggleTopic = (t: string) =>
-    setOpen((o) => {
-      const n = new Set(o);
-      n.has(t) ? n.delete(t) : n.add(t);
-      return n;
-    });
+    // Exclusive accordion: opening one topic folder closes the others.
+    setOpen((o) => (o.has(t) ? new Set() : new Set([t])));
 
   const rail = (
     <nav className="help-rail">

@@ -32,10 +32,16 @@ export function SearchBar({
     if (!open || !host) return;
     host.classList.add("search-raised");
     const onKey = (e: KeyboardEvent) => e.key === "Escape" && setOpen(false);
+    // No scrim: the page stays visible; a click anywhere outside the search closes it.
+    const onDown = (e: PointerEvent) => {
+      if (!wrap.current?.contains(e.target as Node)) setOpen(false);
+    };
     window.addEventListener("keydown", onKey);
+    document.addEventListener("pointerdown", onDown);
     return () => {
       host.classList.remove("search-raised");
       window.removeEventListener("keydown", onKey);
+      document.removeEventListener("pointerdown", onDown);
     };
   }, [open]);
 
@@ -53,7 +59,6 @@ export function SearchBar({
 
   return (
     <div className="search-wrap" ref={wrap}>
-      {open && createPortal(<div className="search-scrim" onClick={() => setOpen(false)} aria-hidden />, frameRoot())}
       <form
         className={`searchbar${open ? " open" : ""}`}
         onSubmit={(e) => {
@@ -118,7 +123,6 @@ export function SearchBar({
 export function Hero({ onSearch }: { onSearch: (q: string) => void }) {
   const h = site.hero;
   const b = useBreakpoint();
-  const [menu, setMenu] = useState(false);
   const [version, setVersion] = useState<string | null>(null);
   const [versionsSheet, setVersionsSheet] = useState(false);
   return (
@@ -145,23 +149,18 @@ export function Hero({ onSearch }: { onSearch: (q: string) => void }) {
             </div>
           )}
           <div className="nav-icons">
-            <button type="button" className={`icon-btn${b === "mobile" ? "" : " light"}`} aria-label="Search" onClick={() => onSearch("")}>
+            {/* Nav search is disabled in this prototype: icon only, no interaction. */}
+            <span className={`icon-btn nav-search-off${b === "mobile" ? "" : " light"}`} aria-hidden>
               <Search size={22} strokeWidth={1.75} />
-            </button>
+            </span>
             {b !== "desktop" && (
-              <button type="button" className={`icon-btn${b === "mobile" ? "" : " light"}`} aria-label="Menu" onClick={() => setMenu(!menu)}>
-                {menu ? <X size={22} /> : <Menu size={22} />}
-              </button>
+              // Menu is disabled in this prototype: icon only, no interaction (Collin, 2026-11-03).
+              <span className={`icon-btn nav-search-off${b === "mobile" ? "" : " light"}`} aria-hidden>
+                <Menu size={22} />
+              </span>
             )}
           </div>
         </nav>
-        {menu && b !== "desktop" && (
-          <div className="mobile-menu">
-            {site.nav.primary.map((l) => (
-              <span key={l}>{l}</span>
-            ))}
-          </div>
-        )}
 
         <div className="hero-body">
           <div className="hero-copy">

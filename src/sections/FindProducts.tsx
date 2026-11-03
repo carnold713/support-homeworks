@@ -265,7 +265,6 @@ export function FindProducts() {
         <div className={`results-header${b === "mobile" ? " stacked" : ""}`}>
           <div>
             <h3>{cfg.resultsTitle}</h3>
-            {b === "mobile" && <p className="results-sub">{cfg.resultsSubtitle}</p>}
           </div>
           <div className="results-meta">
             <span>
@@ -282,7 +281,7 @@ export function FindProducts() {
                     setCompare(true);
                   }}
                 >
-                  <Eye size={16} /> {cfg.compareLabel}
+                  {b !== "mobile" && <Eye size={16} />} {cfg.compareLabel}
                 </button>
               </>
             )}
