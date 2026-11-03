@@ -83,7 +83,7 @@ function DownloadBar({ count, onDownload, onClear }: { count: number; onDownload
       ) : (
         <span>Select docs to download</span>
       )}
-      <Button variant="primary" size="md" disabled={!count} onClick={onDownload}>
+      <Button variant="primary" size="lg" disabled={!count} onClick={onDownload}>
         {count ? `Download (${count})` : "Download"}
       </Button>
     </div>
@@ -373,7 +373,7 @@ export function FindProducts() {
       </div>
 
       {/* -------- filter overlay (narrow = side panel, mobile = bottom sheet) -------- */}
-      <Overlay open={overlayOpen} onClose={() => setOverlayOpen(false)} side={b === "mobile" ? "bottom" : "right"} width={400} height="86vh">
+      <Overlay open={overlayOpen} onClose={() => setOverlayOpen(false)} side={b === "mobile" ? "bottom" : "left"} width={420} height="86vh">
         <div className="panel-head">
           <h3>Filter &amp; Sort</h3>
           <div className="panel-head-actions">
@@ -396,7 +396,7 @@ export function FindProducts() {
       </Overlay>
 
       {/* -------- product flyout -------- */}
-      <Overlay open={!!flyout} onClose={closeFlyout} side={b === "mobile" ? "bottom" : "right"} width={434} height="92vh">
+      <Overlay open={!!flyout} onClose={closeFlyout} side={b === "mobile" ? "bottom" : "right"} width={b === "desktop" ? 520 : 400} height="92vh">
         {flyout && (
           <>
             <div className="panel-head">
@@ -410,7 +410,7 @@ export function FindProducts() {
             </div>
             <DownloadBar count={flyDocs.sel.size} onDownload={() => fakeDownload(flyDocs.sel.size)} onClear={flyDocs.clear} />
             <div className="panel-foot">
-              <Button variant="primary" size="md" full>
+              <Button variant="primary" size="lg" full>
                 {cfg.visitProductLabel}
               </Button>
             </div>
@@ -425,15 +425,17 @@ export function FindProducts() {
           <div className="panel-head-actions">
             {results.length > perPage && (
               <>
-                <span className="pager-label">
-                  {page * perPage + 1}–{Math.min(results.length, (page + 1) * perPage)} of {results.length}
+                <span className="pager">
+                  <span className="pager-label">
+                    {page * perPage + 1}–{Math.min(results.length, (page + 1) * perPage)} of {results.length}
+                  </span>
+                  <button type="button" className="pager-btn" disabled={page === 0} onClick={() => setPage(page - 1)} aria-label="Previous">
+                    <ArrowLeft size={20} />
+                  </button>
+                  <button type="button" className="pager-btn" disabled={page >= pages - 1} onClick={() => setPage(page + 1)} aria-label="Next">
+                    <ArrowRight size={20} />
+                  </button>
                 </span>
-                <button type="button" className="pager-btn" disabled={page === 0} onClick={() => setPage(page - 1)} aria-label="Previous">
-                  <ArrowLeft size={18} />
-                </button>
-                <button type="button" className="pager-btn" disabled={page >= pages - 1} onClick={() => setPage(page + 1)} aria-label="Next">
-                  <ArrowRight size={18} />
-                </button>
                 <span className="v-div" />
               </>
             )}
@@ -454,19 +456,24 @@ export function FindProducts() {
                 style={{ gridRow: 1, gridColumn: (i % perPage) + 1 }}
                 aria-hidden={!onPage}
               >
-                <h4>{p.name}</h4>
-                <Img src={p.image} alt={p.name} className={`compare-img${p.photo ? " photo" : ""}`} />
+                <h4 className="compare-name">{p.name}</h4>
+                <div className="compare-photo">
+                  <Img src={p.image} alt={p.name} className={`compare-img${p.photo ? " photo" : ""}`} />
+                </div>
                 <Specs product={p} />
                 <DocList product={p} selected={cmpDocs.sel} toggle={cmpDocs.toggle} />
-                <Button variant="primary" icon={<ArrowRight size={14} />}>
+                <Button variant="primary" icon={<ArrowRight size={16} />}>
                   {cfg.visitProductLabel}
                 </Button>
+                <div className="compare-end" aria-hidden />
+                <div className="compare-fade" aria-hidden />
               </div>
               );
             })}
           </div>
         </div>
-        <DownloadBar count={cmpDocs.sel.size} onDownload={() => fakeDownload(cmpDocs.sel.size)} onClear={cmpDocs.clear} />
+        {/* The desktop compare sheet in Figma has no download footer; mobile keeps it. */}
+        {b === "mobile" && <DownloadBar count={cmpDocs.sel.size} onDownload={() => fakeDownload(cmpDocs.sel.size)} onClear={cmpDocs.clear} />}
       </Overlay>
     </section>
   );

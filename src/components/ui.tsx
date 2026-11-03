@@ -26,7 +26,7 @@ type BtnProps = {
   children: ReactNode;
   onClick?: () => void;
   variant?: "primary" | "outline" | "ghost" | "white" | "whiteOutline";
-  size?: "sm" | "md";
+  size?: "sm" | "md" | "lg";
   icon?: ReactNode;
   disabled?: boolean;
   full?: boolean;
@@ -127,7 +127,7 @@ export function Overlay({
 }: {
   open: boolean;
   onClose: () => void;
-  side: "right" | "bottom";
+  side: "left" | "right" | "bottom";
   children: ReactNode;
   width?: number;
   height?: string;
@@ -151,7 +151,7 @@ export function Overlay({
       <div className="scrim" onClick={onClose} />
       <div
         className={`panel panel-${side}`}
-        style={side === "right" ? { width: width ?? 434 } : maxHeight ? { maxHeight } : { height: height ?? "auto" }}
+        style={side !== "bottom" ? { width: width ?? 434 } : maxHeight ? { maxHeight } : { height: height ?? "auto" }}
       >
         {children}
       </div>
@@ -161,8 +161,8 @@ export function Overlay({
 
 export function CloseBtn({ onClick }: { onClick: () => void }) {
   return (
-    <button type="button" className="icon-btn" onClick={onClick} aria-label="Close">
-      <X size={20} />
+    <button type="button" className="icon-btn close-btn" onClick={onClick} aria-label="Close">
+      <X size={24} />
     </button>
   );
 }

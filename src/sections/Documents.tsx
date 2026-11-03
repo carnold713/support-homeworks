@@ -263,7 +263,7 @@ export function Documents() {
         </div>
       </div>
 
-      <Overlay open={sheet} onClose={() => setSheet(false)} side={b === "mobile" ? "bottom" : "right"} width={400} height="86vh">
+      <Overlay open={sheet} onClose={() => setSheet(false)} side={b === "mobile" ? "bottom" : "left"} width={420} height="86vh">
         <div className="panel-head">
           <h3>Filter &amp; Sort</h3>
           <div className="panel-head-actions">
