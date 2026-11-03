@@ -80,7 +80,7 @@ export const site = {
     compareLabel: "Compare specs & documents",
     visitProductLabel: "Visit Product Page",
     /** products shown before "View More" */
-    pageSizeDesktop: 18,
+    pageSizeDesktop: 14,
     pageSizeMobile: 6,
   },
 
