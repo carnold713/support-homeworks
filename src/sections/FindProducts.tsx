@@ -166,6 +166,8 @@ function FilterBody({
                       onChange={() => toggleCat(c)}
                       label={`${c} (${countIn(c)})`}
                       info
+                      // 0 matches: disabled (still uncheckable if it was already selected)
+                      disabled={countIn(c) === 0 && !selected.includes(c)}
                     />
                   ))}
                 </div>

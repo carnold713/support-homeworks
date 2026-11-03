@@ -105,7 +105,7 @@ export function Documents() {
               {open && (
                 <div className="acc-body">
                   {opts.map((o) => (
-                    <Checkbox key={o} checked={filters[g.key].includes(o)} onChange={() => toggle(g.key, o)} label={`${o} (${countFor(g.key, o)})`} info />
+                    <Checkbox key={o} checked={filters[g.key].includes(o)} onChange={() => toggle(g.key, o)} label={`${o} (${countFor(g.key, o)})`} info disabled={countFor(g.key, o) === 0 && !filters[g.key].includes(o)} />
                   ))}
                 </div>
               )}

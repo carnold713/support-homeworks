@@ -799,3 +799,6 @@ html::-webkit-scrollbar, body::-webkit-scrollbar, *::-webkit-scrollbar { display
 /* Figma 12595:246936 (updated 2026-11-03): 24px from the divider to the Filters bar / drawer at every breakpoint */
 .docs .results-header { margin-bottom: 24px; }
 .doc-table th { height: 47px; }
+
+/* Filter option with 0 results: Figma checkbox State=disabled (row opacity 40%, not clickable) */
+.checkbox-row.disabled { opacity: .4; cursor: default; pointer-events: none; }

@@ -95,16 +95,19 @@ export function Checkbox({
   label,
   info,
   suffix,
+  disabled,
 }: {
   checked: boolean;
   onChange: () => void;
   label: ReactNode;
   info?: boolean;
   suffix?: ReactNode;
+  /** Figma checkbox "State=disabled": the whole row at 40% opacity, not clickable. */
+  disabled?: boolean;
 }) {
   return (
-    <label className="checkbox-row">
-      <input type="checkbox" checked={checked} onChange={onChange} />
+    <label className={`checkbox-row${disabled ? " disabled" : ""}`} aria-disabled={disabled || undefined}>
+      <input type="checkbox" checked={checked} onChange={onChange} disabled={disabled} />
       <span className={`checkbox-box${checked ? " on" : ""}`}>{checked && <Check size={14} strokeWidth={2.5} />}</span>
       <span className="checkbox-label">{label}</span>
       {info && <Info size={14} className="checkbox-info" />}
