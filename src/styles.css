@@ -487,3 +487,109 @@ button.sr-row:hover { background: #eef5fc; }
   .article-row { gap: 16px; }
 }
 @media (min-width: 768px) { .docs .section-title { max-width: 640px; } }
+
+/* =====================================================================
+   Figma-exact values (audit 2026-11-03). Source: Support-Overhaul-UI
+   final components, read through the Figma MCP. Later rules win.
+   ===================================================================== */
+
+/* ---- checkbox (checkbox / default): 24 slot, 20 box, 1.75 #9e9e9e, gap 8 ---- */
+.checkbox-row { gap: 8px; }
+.checkbox-box { width: 20px; height: 20px; margin: 2px; border-width: 1.75px; border-color: #9e9e9e; }
+.checkbox-info { margin-top: 4px; width: 16px; height: 16px; color: var(--text-2); }
+
+/* ---- filter panel / atom filter drawer (inline, desktop) ---- */
+.fp-layout.with-panel, .fp-layout.with-panel.docs-layout { grid-template-columns: 306px minmax(0, 1fr); gap: 24px; }
+.fp-layout.with-panel .fp-panel, .docs-layout .fp-panel { box-sizing: border-box; width: 306px; margin: 0; padding: 24px 32px 24px 0; border-right: 2px solid #e9e9e9; display: flex; flex-direction: column; gap: 48px; }
+.fp-panel .fp-panel-top { margin: 0; align-items: center; min-height: 36px; }
+.fp-panel .round-btn { width: 36px; height: 36px; border-radius: 24px; }
+.fp-panel .round-btn svg { width: 20px; height: 20px; }
+.fp-panel .tiny-link { font-size: 12px; line-height: 16px; font-weight: 700; color: var(--text-2); }
+.fp-panel .fp-block, .panel .fp-block { margin: 0; display: flex; flex-direction: column; gap: 16px; }
+.fp-panel .fp-block h4 { font-size: 20px; line-height: 28px; font-weight: 600; color: var(--text-2); margin: 0; }
+.fp-panel .select { border-bottom: 1.5px solid #e9e9e9; }
+.fp-panel .select select { height: 32px; padding: 4px 28px 4px 4px; font-size: 16px; line-height: 24px; color: var(--text-2); }
+.fp-panel .select svg { right: 6px; }
+.fp-panel .acc { border-bottom: 1.5px solid #e9e9e9; }
+.fp-panel .acc-head { height: 32px; padding: 4px 6px 4px 4px; font-size: 16px; line-height: 24px; color: var(--text-2); }
+.fp-panel .acc-head[aria-expanded="true"] { border-bottom: 1.5px solid #e9e9e9; }
+.docs-layout .fp-panel .acc-head[aria-expanded="true"] { font-weight: 700; }
+.fp-panel .acc-body { padding: 4px 0 16px; display: flex; flex-direction: column; gap: 8px; }
+.fp-panel .checkbox-row { padding: 2px; font-size: 16px; line-height: 24px; color: var(--text-2); }
+
+/* ---- results toolbar / filter bar: py16, gap 12, 40px controls ---- */
+.toolbar { gap: 12px; padding: 16px 0; margin-bottom: 24px; }
+.filters-btn { height: 40px; padding: 0 24px; gap: 8px; font-size: 16px; line-height: 24px; font-weight: 600; }
+.filters-btn svg { width: 16px; height: 16px; }
+.filters-btn .badge { font-size: 14px; line-height: 20px; font-weight: 700; }
+.chip { box-sizing: border-box; height: 40px; padding: 0 14.25px; gap: 8px; border: 1.75px solid var(--blue); border-radius: 64px; font-size: 16px; line-height: 24px; color: var(--text); }
+.chip svg { width: 24px; height: 24px; }
+.clear-all:not(.plain) { box-sizing: border-box; height: 40px; padding: 0 14.25px; border: 1.75px solid #d1d1d1; border-radius: 64px; font-size: 16px; line-height: 24px; color: var(--text-2); }
+
+/* ---- pi / results header: title 20/28, 12 gap, divider, 24 pad, 24 gap ---- */
+.docs .results-header { padding-bottom: 12px; margin-bottom: 48px; gap: 48px; }
+.docs .results-header h3.small { font-size: 20px; line-height: 28px; font-weight: 600; }
+.docs .results-meta { font-size: 14px; line-height: 20px; }
+
+/* ---- documents table: header 48, rows 72, columns flex/160/120/120/120 ---- */
+.doc-table { table-layout: fixed; border-collapse: collapse; }
+.doc-table th { height: 48px; padding: 16px 32px 16px 12px; font-size: 12px; line-height: 16px; color: var(--text-2); border-bottom: 1px solid rgba(0, 0, 0, .09); box-sizing: border-box; }
+.doc-table th:nth-child(2) { width: 160px; }
+.doc-table th:nth-child(3), .doc-table th:nth-child(4), .doc-table th:nth-child(5) { width: 120px; }
+.doc-table th.col-name, .doc-table td.col-name { width: auto; padding-left: 16px; padding-right: 32px; }
+.doc-table th.col-action { padding: 16px 12px; color: var(--text); }
+.doc-table .th-btn { gap: 8px; font-size: 12px; line-height: 16px; }
+.doc-table tbody tr { height: 72px; }
+.doc-table td { padding: 6px 32px 6px 12px; font-size: 14px; line-height: 20px; color: var(--text); vertical-align: middle; }
+.doc-table td.col-name { font-size: 16px; line-height: 24px; font-weight: 700; }
+.doc-table td.col-action { padding: 6px 12px; text-align: right; }
+.doc-table tr.zebra td { background: rgba(0, 0, 0, .02); }
+.doc-table .filetype { gap: 4px; }
+.doc-table .filetype svg { width: 16px; height: 16px; }
+.row-action { gap: 4px; font-size: 14px; line-height: 20px; font-weight: 600; padding: 2px 0; }
+.row-action svg { width: 16px; height: 16px; }
+
+/* ---- pi / back to top: pt 24, gap 8, link 14/20 #666 ---- */
+.docs .more-row { margin-top: 0; padding-top: 24px; gap: 8px; }
+.docs .more-row .btn { min-width: 144px; }
+.back-top { font-size: 14px; line-height: 20px; color: var(--text-2); }
+.doc-table th { white-space: nowrap; overflow: hidden; }
+.doc-table .th-btn { height: 16px; }
+.doc-table .sort-arrows { height: 16px; align-items: center; }
+.doc-table th { line-height: 16px; } .doc-table .th-btn { display: flex; }
+
+/* ---- documents & resources · mobile (14849:26539) ---- */
+@media (max-width: 767px) {
+  .section { padding: 48px 0; }
+  .section-title { font-size: 28px; line-height: 32px; margin-bottom: 32px; }
+  .docs .results-header { flex-direction: column; align-items: flex-start; gap: 4px; padding-bottom: 12px; margin-bottom: 24px; }
+  .docs .toolbar { gap: 8px; padding: 0; margin-bottom: 24px; }
+  .doc-cell { padding: 16px; gap: 16px; border-radius: 2px; display: flex; flex-direction: column; }
+  .doc-cell.zebra { background: rgba(0, 0, 0, .02); }
+  .doc-cell-head { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+  .doc-cell .eyebrow { font-size: 14px; line-height: 20px; color: var(--text-2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .doc-cell .doc-title { font-size: 16px; line-height: 24px; font-weight: 700; }
+  .doc-cell-foot { margin: 0; gap: 8px; }
+  .doc-meta { gap: 4px; font-size: 14px; line-height: 20px; color: var(--text); }
+  .doc-meta .meta-dot { width: 2px; height: 2px; border-radius: 1px; background: var(--text); }
+  .doc-cell .row-action { font-size: 16px; line-height: 20px; }
+  .docs .more-row { padding-top: 24px; }
+}
+
+/* ---- find products (14836:39404 / filter panel 14836:39832) ---- */
+.fp .results-header { padding-bottom: 12px; margin-bottom: 24px; gap: 48px; }
+.fp .results-header h3 { font-size: 24px; line-height: 32px; font-weight: 600; }
+.fp .results-meta { gap: 12px; font-size: 14px; line-height: 20px; }
+.fp .results-meta > span:first-child { font-weight: 700; }
+.fp .results-meta > span:first-child b { font-weight: 700; }
+.fp .toolbar { margin-bottom: 24px; }
+.product-grid, .product-grid.narrow-grid { gap: 24px; padding-bottom: 16px; }
+.product-card { gap: 4px; }
+.product-card .eyebrow { margin-top: 8px; font-size: 12px; line-height: 16px; color: var(--text-2); }
+.product-name { font-size: 16px; line-height: 24px; color: var(--text); }
+.product-img:not(.photo) img { width: 60.2%; height: calc(100% - 48px); max-width: none; max-height: none; object-fit: contain; }
+.round-arrow { right: 8px; bottom: 8px; width: 24px; height: 24px; border-radius: 13px; }
+.round-arrow svg { width: 11px; height: 11px; }
+.fp .more-row { margin-top: 0; padding-top: 24px; gap: 8px; }
+.fp .more-row .btn { min-width: 144px; }
+.product-img img { mix-blend-mode: normal; }

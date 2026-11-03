@@ -199,11 +199,15 @@ export function Documents() {
               <div className="doc-cells">
                 {visible.map((d, i) => (
                   <div key={d.title} className={`doc-cell${i % 2 === 0 ? " zebra" : ""}`}>
-                    <span className="eyebrow">{d.docType}</span>
-                    <span className="doc-title">{d.title}</span>
+                    <div className="doc-cell-head">
+                      <span className="eyebrow">{d.docType}</span>
+                      <span className="doc-title">{d.title}</span>
+                    </div>
                     <div className="doc-cell-foot">
                       <span className="doc-meta">
-                        {d.fileType === "PDF" && <FileText size={14} />} {d.fileType} · {d.language}
+                        {d.fileType === "PDF" && <FileText size={16} />} {d.fileType}
+                        <span className="meta-dot" aria-hidden />
+                        {d.language}
                       </span>
                       <ActionLink d={d} />
                     </div>

@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>HomeWorks Support · Desktop prototype (1440 × 1024)</title>
+<style>
+  html, body { margin: 0; height: 100%; background: #1a1a1a; overflow: hidden; }
+  /* The site always renders at exactly 1440 x 1024. If the browser window is smaller,
+     the whole frame is scaled down to fit (never up), so the layout never changes. */
+  #stage { position: absolute; left: 50%; top: 50%; width: 1440px; height: 1024px; transform-origin: center center; }
+  #stage iframe { display: block; width: 1440px; height: 1024px; border: 0; background: #fff; box-shadow: 0 8px 40px rgba(0,0,0,.4); }
+</style>
+</head>
+<body>
+<div id="stage"><iframe src="/homeworks-desktop/app/" title="HomeWorks Support prototype, desktop 1440 by 1024"></iframe></div>
+<script>
+  var stage = document.getElementById('stage');
+  function fit() {
+    var s = Math.min(1, window.innerWidth / 1440, window.innerHeight / 1024);
+    stage.style.transform = 'translate(-50%, -50%) scale(' + s + ')';
+  }
+  window.addEventListener('resize', fit);
+  fit();
+</script>
+</body>
+</html>

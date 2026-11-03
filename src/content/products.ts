@@ -139,6 +139,7 @@ export const products: Product[] = [
     name: "D2 Remodeler Downlight",
     category: "Downlights",
     image: "/assets/products/d2-remodeler-downlight.png",
+    photo: true,
     popularity: 7,
     specs: [
       { label: "Product family", value: "KETRA D2" },

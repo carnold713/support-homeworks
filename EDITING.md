@@ -46,3 +46,8 @@ In Figma Make you can also just ask the Make chat, for example: "add a product c
 - Font: Lutron Sans Screen (the variable web font from the brand files) is bundled at `src/assets/fonts/` and loaded at the top of `src/styles.css`. Inter is only a fallback.
 - Images and icons were exported from the Figma file into `public/assets/`. `scripts/fetch-figma-assets.sh` re-downloads them (the links expire about a week after 2026-11-03). A missing image shows a grey tile instead of breaking.
 - Colors and spacing tokens are at the top of `src/styles.css`.
+
+## Where the site lives
+
+- The prototype is at `/homeworks-desktop/`. That page is `frame/index.html`: it shows the site in a fixed 1440 × 1024 window and scales the whole window down (never up) when the browser is smaller, so the layout is always the 1440 desktop one.
+- The site itself is built to `/homeworks-desktop/app/` (see `base` in `vite.config.ts`). The root URL `/` redirects to `/homeworks-desktop/`.

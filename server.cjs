@@ -42,13 +42,19 @@ http.createServer((req, res) => {
     req.on('end', () => {
       const pw = new URLSearchParams(body).get('password') || '';
       if (pw === PASSWORD) {
-        res.writeHead(302, { 'Set-Cookie': `hwauth=${TOKEN}; Path=/; HttpOnly; SameSite=Lax; Max-Age=2592000; Secure`, Location: '/' });
+        res.writeHead(302, { 'Set-Cookie': `hwauth=${TOKEN}; Path=/; HttpOnly; SameSite=Lax; Max-Age=2592000; Secure`, Location: '/homeworks-desktop/' });
         return res.end();
       }
       res.writeHead(401, { 'Content-Type': TYPES['.html'] });
       res.end(loginPage(true));
     });
     return;
+  }
+
+  // The prototype lives at /homeworks-desktop/ (a fixed 1440x1024 frame around /homeworks-desktop/app/).
+  if (url.pathname === '/' || url.pathname === '/homeworks-desktop' || url.pathname === '/homeworks-desktop/app') {
+    res.writeHead(302, { Location: url.pathname === '/homeworks-desktop/app' ? '/homeworks-desktop/app/' : '/homeworks-desktop/' });
+    return res.end();
   }
 
   let rel = decodeURIComponent(url.pathname);
