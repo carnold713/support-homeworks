@@ -25,7 +25,7 @@
   --nav: rgba(18, 18, 18, 0.75);
   --shadow: 0 3.2px 7.2px rgba(0, 0, 0, 0.13);
   --margin: 72px;
-  --font: "Lutron Sans Screen", "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font: "Lutron Sans Screen", system-ui, -apple-system, "Segoe UI", sans-serif;
 }
 @container hw (max-width: 1199px) { #hw-app { --margin: 40px; } }
 @container hw (max-width: 767px) { #hw-app { --margin: 16px; } }
