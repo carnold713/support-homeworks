@@ -5,10 +5,20 @@ import { ArrowLeft, ArrowRight, Check, ChevronDown, Info, X } from "lucide-react
 export type Breakpoint = "mobile" | "narrow" | "desktop";
 const bp = (w: number): Breakpoint => (w < 768 ? "mobile" : w < 1200 ? "narrow" : "desktop");
 
+/* ---------- the fixed 1440 x 1024 frame (see main.tsx) ---------- */
+/** The scrolling 1440 x 1024 window the site lives in, or null when shown bare (?bare). */
+export const frameScroller = () => document.getElementById("hw-scroll");
+/** Where overlays that must stay inside the frame are portalled to. */
+export const frameRoot = () => document.getElementById("hw-stage") ?? document.body;
+/** Current scale of the frame (it shrinks to fit small windows). */
+export const frameScale = () => Number(document.getElementById("hw-stage")?.dataset.scale || 1);
+/** Width the layout should respond to: always 1440 inside the frame. */
+const layoutWidth = () => (frameScroller() ? 1440 : window.innerWidth);
+
 export function useBreakpoint(): Breakpoint {
-  const [b, setB] = useState<Breakpoint>(() => bp(window.innerWidth));
+  const [b, setB] = useState<Breakpoint>(() => bp(layoutWidth()));
   useEffect(() => {
-    const on = () => setB(bp(window.innerWidth));
+    const on = () => setB(bp(layoutWidth()));
     window.addEventListener("resize", on);
     return () => window.removeEventListener("resize", on);
   }, []);
@@ -17,9 +27,18 @@ export function useBreakpoint(): Breakpoint {
 
 export function scrollToEl(el: HTMLElement | null, offset = 16) {
   if (!el) return;
+  const sc = frameScroller();
+  if (sc) {
+    const y = (el.getBoundingClientRect().top - sc.getBoundingClientRect().top) / frameScale() + sc.scrollTop - offset;
+    sc.scrollTo({ top: y, behavior: "smooth" });
+    return;
+  }
   const y = el.getBoundingClientRect().top + window.scrollY - offset;
   window.scrollTo({ top: y, behavior: "smooth" });
 }
+
+/** "92vh" means 92% of the 1024px frame height inside the frame. */
+export const fh = (v?: string) => v && v.replace(/(\d+(?:\.\d+)?)vh/g, "calc($1 * var(--fh, 1vh))");
 
 /* ---------- buttons ---------- */
 type BtnProps = {
@@ -141,11 +160,12 @@ export function Overlay({
     if (!open) return;
     const k = (e: KeyboardEvent) => e.key === "Escape" && onClose();
     document.addEventListener("keydown", k);
-    const prev = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
+    const lock = frameScroller() ?? document.body;
+    const prev = lock.style.overflow;
+    lock.style.overflow = "hidden";
     return () => {
       document.removeEventListener("keydown", k);
-      document.body.style.overflow = prev;
+      lock.style.overflow = prev;
     };
   }, [open, onClose]);
   if (!open) return null;
@@ -154,7 +174,7 @@ export function Overlay({
       <div className="scrim" onClick={onClose} />
       <div
         className={`panel panel-${side}`}
-        style={side !== "bottom" ? { width: width ?? 434 } : maxHeight ? { maxHeight } : { height: height ?? "auto" }}
+        style={side !== "bottom" ? { width: width ?? 434 } : maxHeight ? { maxHeight: fh(maxHeight) } : { height: fh(height) ?? "auto" }}
       >
         {children}
       </div>

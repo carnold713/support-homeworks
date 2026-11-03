@@ -51,9 +51,10 @@ http.createServer((req, res) => {
     return;
   }
 
-  // The prototype lives at /homeworks-desktop/ (a fixed 1440x1024 frame around /homeworks-desktop/app/).
-  if (url.pathname === '/' || url.pathname === '/homeworks-desktop' || url.pathname === '/homeworks-desktop/app') {
-    res.writeHead(302, { Location: url.pathname === '/homeworks-desktop/app' ? '/homeworks-desktop/app/' : '/homeworks-desktop/' });
+  // The prototype lives at /homeworks-desktop/ (it draws its own fixed 1440x1024 frame).
+  // The old /homeworks-desktop/app/ address from the earlier iframe version redirects there too.
+  if (url.pathname === '/' || url.pathname === '/homeworks-desktop' || url.pathname === '/homeworks-desktop/app' || url.pathname === '/homeworks-desktop/app/') {
+    res.writeHead(302, { Location: '/homeworks-desktop/' });
     return res.end();
   }
 

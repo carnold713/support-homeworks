@@ -3,7 +3,7 @@ import { createPortal } from "react-dom";
 import { ArrowRight, ArrowUpLeft, ChevronRight, Menu, Search, X } from "lucide-react";
 import { Hit, quickHits } from "../components/searchIndex";
 import { site } from "../content/site";
-import { CloseBtn, Overlay, asset, toast, useBreakpoint } from "../components/ui";
+import { CloseBtn, Overlay, asset, frameRoot, toast, useBreakpoint } from "../components/ui";
 
 /**
  * Search bar with the "Suggested Support Topics" dropdown.
@@ -53,7 +53,7 @@ export function SearchBar({
 
   return (
     <div className="search-wrap" ref={wrap}>
-      {open && createPortal(<div className="search-scrim" onClick={() => setOpen(false)} aria-hidden />, document.body)}
+      {open && createPortal(<div className="search-scrim" onClick={() => setOpen(false)} aria-hidden />, frameRoot())}
       <form
         className={`searchbar${open ? " open" : ""}`}
         onSubmit={(e) => {
