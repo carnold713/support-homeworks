@@ -442,8 +442,18 @@ export function FindProducts() {
         </div>
         <div className="panel-body compare-body">
           <div className="compare-row" style={{ gridTemplateColumns: `repeat(${perPage}, minmax(0, 1fr))` }}>
-            {results.slice(page * perPage, page * perPage + perPage).map((p) => (
-              <div key={p.id} className="compare-card">
+            {/* Every card in the filtered set is laid out in the same grid row (one per column slot),
+                and only the current page is visible, so the sheet height fits the tallest card in the
+                whole set and stays put while paging. */}
+            {results.map((p, i) => {
+              const onPage = Math.floor(i / perPage) === page;
+              return (
+              <div
+                key={p.id}
+                className={`compare-card${onPage ? "" : " compare-card-hidden"}`}
+                style={{ gridRow: 1, gridColumn: (i % perPage) + 1 }}
+                aria-hidden={!onPage}
+              >
                 <h4>{p.name}</h4>
                 <Img src={p.image} alt={p.name} className={`compare-img${p.photo ? " photo" : ""}`} />
                 <Specs product={p} />
@@ -452,7 +462,8 @@ export function FindProducts() {
                   {cfg.visitProductLabel}
                 </Button>
               </div>
-            ))}
+              );
+            })}
           </div>
         </div>
         <DownloadBar count={cmpDocs.sel.size} onDownload={() => fakeDownload(cmpDocs.sel.size)} onClear={cmpDocs.clear} />

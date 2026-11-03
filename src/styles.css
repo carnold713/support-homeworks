@@ -257,6 +257,7 @@ hr.divider { border: 0; border-top: 1px solid var(--line); margin: 0 var(--margi
 @media (max-width: 767px) { .compare-body { padding: 0 16px 16px; } }
 .compare-row { display: grid; gap: 20px; padding-top: 4px; }
 .compare-card { background: var(--white); border-radius: 4px; box-shadow: 0 1px 4px rgba(0, 0, 0, .08); padding: 24px 20px; display: flex; flex-direction: column; align-items: flex-start; }
+.compare-card-hidden { visibility: hidden; }
 .compare-card h4 { font-size: 18px; line-height: 24px; font-weight: 600; margin-bottom: 20px; }
 .compare-card .specs { width: 100%; }
 .compare-card .doclist { width: 100%; }
