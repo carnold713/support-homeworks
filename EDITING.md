@@ -25,7 +25,7 @@ In Figma Make you can also just ask the Make chat, for example: "add a product c
 
 ## What's clickable
 
-- Hero and "Still having trouble?" search: clicking in opens the Suggested Support Topics dropdown over a dimmed page (clicking a topic fills the box). Typing shows the top matches; clicking a product opens its flyout. Enter or "See more results" opens the full results sheet. X, Escape or clicking the dimmed page closes it.
+- Hero and "Still having trouble?" search: clicking in opens the Suggested Support Topics dropdown over a dimmed page, and typing shows the top matches. Clicking any suggestion or match, "See more results" or Enter shows a toast (`hero.searchToast` in `site.ts`) explaining that the real site would hand off to the main Lutron search, with Support and HomeWorks results first. There are no results screens. X, Escape or clicking the dimmed page closes it.
 - Find Products: Filters button (inline panel on desktop, side panel on tablet, bottom sheet on phone), category checkboxes with live counts, chips with ×, Clear All / Remove All, Sort By, product card → flyout with specs and selectable docs (Download enables when docs are selected), "Compare specs & documents" → bottom sheet with paging (4 at a time on desktop), View More after 14 (6 on phone), Go back to top once more than 14 are showing, empty state.
 - Documents & Resources: filter drawer (starts open, groups start collapsed), sortable columns, zebra rows, chips, View More after 10 (8 on phone), phone list + filter sheet.
 - Help & FAQs: topic rail accordion, "All <topic>" views, clickable breadcrumbs, View More after 8, phone "Select a Topic" sheet. Read Article / Watch Video stay non-interactive.

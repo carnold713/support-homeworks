@@ -52,6 +52,9 @@ export const site = {
       "Wiring Wizard",
     ],
     seeMoreLabel: "See more results",
+    /** Shown instead of a results screen when someone picks a suggestion or presses Enter */
+    searchToast:
+      "Search results aren't part of this prototype. On lutron.com this would go to the main Lutron search, showing Support and HomeWorks results first.",
     otherVersionsLabel: "Other System Versions:",
     otherVersionsButton: "Other HomeWorks Versions", // phone: button that opens the versions sheet
     otherVersions: [

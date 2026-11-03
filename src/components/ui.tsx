@@ -187,7 +187,8 @@ export function Toaster() {
     const on = (e: Event) => {
       setMsg((e as CustomEvent<string>).detail);
       window.clearTimeout(t);
-      t = window.setTimeout(() => setMsg(null), 2600);
+      const m = (e as CustomEvent<string>).detail;
+      t = window.setTimeout(() => setMsg(null), Math.max(2600, m.length * 55));
     };
     window.addEventListener("toast", on);
     return () => window.removeEventListener("toast", on);

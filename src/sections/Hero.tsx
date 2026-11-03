@@ -8,7 +8,9 @@ import { CloseBtn, Overlay, asset, toast, useBreakpoint } from "../components/ui
 /**
  * Search bar with the "Suggested Support Topics" dropdown.
  * Click in: the dropdown opens over the page with suggested topics (from site.hero).
- * Type: the dropdown shows the top matches. Enter or "See more results" opens the full results sheet.
+ * Type: the dropdown shows the top matches.
+ * Clicking a suggestion or result, "See more results" or Enter shows a toast (site.hero.searchToast)
+ * instead of a results screen: the real site hands off to the main Lutron search.
  */
 export function SearchBar({
   placeholder,
@@ -41,20 +43,13 @@ export function SearchBar({
     setOpen(false);
     setQ("");
   };
-  const submit = (term: string) => {
+  // Results screens are out of scope for the prototype: explain where search would go instead.
+  const submit = (_term: string) => {
     setOpen(false);
-    onSubmit(term);
+    input.current?.blur();
+    toast(h.searchToast);
   };
-  const pick = (hit: Hit) => {
-    if (hit.kind === "product") {
-      close();
-      window.dispatchEvent(new CustomEvent("open-product", { detail: hit.id }));
-    } else submit(hit.title);
-  };
-  const fill = (t: string) => {
-    setQ(t);
-    input.current?.focus();
-  };
+  const pick = (hit: Hit) => submit(hit.title);
 
   return (
     <div className="search-wrap" ref={wrap}>
@@ -92,7 +87,7 @@ export function SearchBar({
             <h4>{q.trim() ? "Suggested Results" : h.suggestedTitle}</h4>
             {q.trim()
               ? hits.length === 0 ? (
-                  <p className="search-empty">No quick matches for “{q}”. Press Enter to search everything.</p>
+                  <p className="search-empty">No quick matches for “{q}”. Press Enter to search all of Lutron.</p>
                 ) : (
                   hits.map((hit) => (
                     <button type="button" key={hit.kind + hit.title} className="search-item" onClick={() => pick(hit)}>
@@ -105,7 +100,7 @@ export function SearchBar({
                   ))
                 )
               : h.suggestedTopics.map((t) => (
-                  <button type="button" key={t} className="search-item" onClick={() => fill(t)}>
+                  <button type="button" key={t} className="search-item" onClick={() => submit(t)}>
                     <span className="search-item-text">{t}</span>
                     <ArrowUpLeft size={18} strokeWidth={1.5} />
                   </button>
