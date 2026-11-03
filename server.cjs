@@ -6,7 +6,8 @@ const path = require('path');
 const crypto = require('crypto');
 
 const PORT = process.env.PORT || 3000;
-const ROOT = path.join(__dirname, 'dist');
+// The Vite build lands in dist/homeworks-desktop (the Figma Make deploy is set to that folder); it is served at the site root.
+const ROOT = path.join(__dirname, 'dist', 'homeworks-desktop');
 const PASSWORD = process.env.SITE_PASSWORD || '';
 const TOKEN = PASSWORD ? crypto.createHash('sha256').update('hw:' + PASSWORD).digest('hex') : '';
 
@@ -42,7 +43,7 @@ http.createServer((req, res) => {
     req.on('end', () => {
       const pw = new URLSearchParams(body).get('password') || '';
       if (pw === PASSWORD) {
-        res.writeHead(302, { 'Set-Cookie': `hwauth=${TOKEN}; Path=/; HttpOnly; SameSite=Lax; Max-Age=2592000; Secure`, Location: '/homeworks-desktop/' });
+        res.writeHead(302, { 'Set-Cookie': `hwauth=${TOKEN}; Path=/; HttpOnly; SameSite=Lax; Max-Age=2592000; Secure`, Location: '/' });
         return res.end();
       }
       res.writeHead(401, { 'Content-Type': TYPES['.html'] });
@@ -51,10 +52,9 @@ http.createServer((req, res) => {
     return;
   }
 
-  // The prototype lives at /homeworks-desktop/ (it draws its own fixed 1440x1024 frame).
-  // The old /homeworks-desktop/app/ address from the earlier iframe version redirects there too.
-  if (url.pathname === '/' || url.pathname === '/homeworks-desktop' || url.pathname === '/homeworks-desktop/app' || url.pathname === '/homeworks-desktop/app/') {
-    res.writeHead(302, { Location: '/homeworks-desktop/' });
+  // Old addresses from when the site lived under /homeworks-desktop/ go to the root.
+  if (url.pathname === '/homeworks-desktop' || url.pathname.startsWith('/homeworks-desktop/')) {
+    res.writeHead(301, { Location: '/' });
     return res.end();
   }
 
