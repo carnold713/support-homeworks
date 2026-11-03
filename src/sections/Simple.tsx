@@ -69,12 +69,16 @@ export function Tools() {
         <div className="tool-grid" ref={strip.ref} onScroll={strip.onScroll}>
           {t.cards.map((c, i) => (
             <div key={i} className="tool-card">
-              <img className="tool-icon" src={asset("/assets/icons/si-11.svg")} alt="" onError={(e) => ((e.target as HTMLImageElement).style.visibility = "hidden")} />
-              <div>
-                <h4>{c.title}</h4>
-                <p>{c.description}</p>
+              <div className="tool-top">
+                <img className="tool-icon" src={asset("/assets/icons/si-11.svg")} alt="" onError={(e) => ((e.target as HTMLImageElement).style.visibility = "hidden")} />
+                <div className="tool-copy">
+                  <h4>{c.title}</h4>
+                  <p>{c.description}</p>
+                </div>
               </div>
-              <ArrowRight size={20} className="tool-arrow" />
+              <span className="tool-arrow-row" aria-hidden>
+                <span className="tool-arrow-btn"><ArrowRight size={20} className="tool-arrow" /></span>
+              </span>
             </div>
           ))}
         </div>
@@ -102,7 +106,7 @@ export function Education() {
                 <h3>{t.title}</h3>
                 <p>{t.description}</p>
                 <span className="text-link underline">
-                  {t.link} <ArrowRight size={14} />
+                  {t.link} <ArrowRight size={16} />
                 </span>
               </div>
             </div>
