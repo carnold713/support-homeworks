@@ -92,7 +92,7 @@ hr.divider { border: 0; border-top: 1px solid var(--line); margin: 0 var(--margi
 /* ---------- checkbox / accordion / select ---------- */
 .checkbox-row { display: flex; align-items: flex-start; gap: 10px; padding: 6px 0; cursor: pointer; font-size: 14px; line-height: 20px; color: var(--text); }
 .checkbox-row input { position: absolute; opacity: 0; pointer-events: none; }
-.checkbox-box { flex: none; width: 18px; height: 18px; margin-top: 1px; border: 1.75px solid #9e9e9e; border-radius: 4px; display: inline-flex; align-items: center; justify-content: center; color: var(--white); background: var(--white); }
+.checkbox-box { flex: none; width: 18px; height: 18px; margin-top: 1px; border: 1.75px solid #9e9e9e; border-radius: 4px; display: inline-flex; align-items: center; justify-content: center; color: var(--white); background: transparent; }
 .checkbox-box.on { background: var(--blue); border-color: var(--blue); }
 .checkbox-row:hover .checkbox-box:not(.on) { border-color: var(--text); }
 .checkbox-label { flex: 1; }
@@ -255,9 +255,9 @@ hr.divider { border: 0; border-top: 1px solid var(--line); margin: 0 var(--margi
 .v-div { width: 1px; height: 24px; background: var(--border); margin: 0 4px; }
 .compare-body { background: var(--bg); padding: 0 36px 24px; flex: 0 1 auto; min-height: 0; display: flex; flex-direction: column; overflow: hidden; }
 @media (max-width: 767px) { .compare-body { padding: 0 16px 16px; } }
-.compare-row { display: grid; gap: 20px; padding-top: 4px; flex: 0 1 auto; min-height: 0; grid-template-rows: minmax(0, 1fr); }
+.compare-row { display: grid; gap: 20px; padding-top: 24px; flex: 0 1 auto; min-height: 0; grid-template-rows: minmax(0, 1fr); }
 /* each card scrolls on its own once the sheet hits its max height */
-.compare-row > .compare-card { min-height: 0; overflow-y: auto; overscroll-behavior: contain; }
+.compare-row > .compare-card { min-height: 0; max-height: 100%; align-self: start; overflow-y: auto; overscroll-behavior: contain; }
 .compare-card { background: var(--white); border-radius: 4px; box-shadow: 0 1px 4px rgba(0, 0, 0, .08); padding: 24px 20px; display: flex; flex-direction: column; align-items: flex-start; }
 .compare-card-hidden { visibility: hidden; }
 .compare-card h4 { font-size: 18px; line-height: 24px; font-weight: 600; margin-bottom: 20px; }
