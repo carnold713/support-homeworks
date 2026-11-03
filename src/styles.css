@@ -736,3 +736,28 @@ button.sr-row:hover { background: #eef5fc; }
 
 /* ---------- Education & Training (14758:329560) ---------- */
 .education .section-title { max-width: 856px; }
+
+/* ---------- Footer: exact values from the final component (14767:346394) ---------- */
+@media (min-width: 768px) {
+  .footer { margin-top: 0; border-top: 0; background: var(--bg); padding: 72px 0; }
+  .footer-logo { display: block; padding-bottom: 16px; }
+  .footer-grid { border-top: 1.75px solid var(--line); margin-top: 0; padding-top: 32px; display: flex; justify-content: space-between; align-items: flex-start; gap: 48px 24px; grid-template-columns: none; }
+  .footer-cols { width: 856px; display: flex; gap: 24px; align-items: flex-start; }
+  .footer-col { flex: 1; min-width: 0; padding-right: 48px; display: flex; flex-direction: column; gap: 20px; font-size: 14px; line-height: 20px; color: var(--text-2); }
+  .footer-col h5 { margin: 0 0 12px; font-size: 14px; line-height: 20px; font-weight: 500; color: var(--text); }
+  .footer-sub { width: 306px; flex: none; display: flex; flex-direction: column; gap: 24px; }
+  .footer-sub h5 { margin: 0; font-size: 14px; line-height: 20px; font-weight: 500; color: var(--text); }
+  .footer-sub-body { display: flex; flex-direction: column; gap: 32px; align-items: flex-start; }
+  .footer-sub h3 { margin: 0; font-size: 24px; line-height: 32px; font-weight: 300; }
+  .footer-fields { align-self: stretch; display: flex; flex-direction: column; gap: 16px; }
+  .footer-sub .field { height: 32px; border-bottom: 1.5px solid var(--border); }
+  .footer-sub .field-label { bottom: 4px; }
+  .field-select { display: flex; align-items: center; justify-content: flex-end; padding: 4px 6px; color: var(--text-2); }
+  .footer-sub .checkbox-row { padding: 2px; gap: 8px; font-size: 12px; line-height: 16px; color: var(--text-2); }
+  .footer-sub .checkbox-box { border-color: #d2d2d2; }
+  .footer-sub .btn { width: 120px; padding: 12px 24px; font-size: 16px; line-height: 24px; font-weight: 500; }
+  .footer-bottom { margin-top: 72px; padding-top: 24px; border-top: 1.75px solid var(--line); align-items: flex-end; }
+  .footer-legal { gap: 24px; font-size: 12px; line-height: 16px; color: var(--text-2); }
+  .footer-social { gap: 24px; align-items: center; color: var(--text); }
+}
+@media (min-width: 768px) { .footer-sub .row2 { flex-wrap: nowrap; } .footer-sub .row2 > * { flex: 1 1 0; min-width: 0; } }

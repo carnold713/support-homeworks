@@ -1,5 +1,5 @@
 import { FormEvent, useMemo, useRef, useState } from "react";
-import { ArrowRight, Facebook, Headphones, Instagram, Linkedin, Search, Twitter, Video, Youtube } from "lucide-react";
+import { ArrowRight, ChevronDown, Facebook, Headphones, Instagram, Linkedin, Search, Twitter, Video, Youtube } from "lucide-react";
 import { site } from "../content/site";
 import { ArrowIcon, Button, Checkbox, CloseBtn, Img, Overlay, StripNav, asset, scrollToEl, toast, useBreakpoint, useStrip } from "../components/ui";
 import { SearchBar } from "./Hero";
@@ -236,6 +236,7 @@ export function Footer() {
       <div className="container">
         <img className="footer-logo" src={asset("/assets/icons/lutron-logo.svg")} alt="Lutron" onError={(e) => ((e.target as HTMLImageElement).style.visibility = "hidden")} />
         <div className="footer-grid">
+          <div className="footer-cols">
           {f.columns.map((col) => (
             <div key={col.title} className="footer-col">
               <h5>{col.title}</h5>
@@ -244,15 +245,23 @@ export function Footer() {
               ))}
             </div>
           ))}
+          </div>
           <form className="footer-sub" onSubmit={(e) => { e.preventDefault(); toast("Prototype: thanks for subscribing!"); }}>
             <h5>{f.subscribeEyebrow}</h5>
+            <div className="footer-sub-body">
             <h3>{f.subscribeTitle}</h3>
+            <div className="footer-fields">
             <div className="row2"><label className="field"><span className="field-label">First Name<i> *</i></span><input /></label><label className="field"><span className="field-label">Last Name<i> *</i></span><input /></label></div>
             <label className="field"><span className="field-label">Email<i> *</i></span><input /></label>
+            <span className="field field-select"><span className="field-label">Profession - What best describes you<i> *</i></span><ChevronDown size={16} /></span>
             <label className="field"><span className="field-label">Company<i> *</i></span><input /></label>
+            <span className="field field-select"><span className="field-label">Country<i> *</i></span><ChevronDown size={16} /></span>
+            <span className="field field-select"><span className="field-label">State/Province<i> *</i></span><ChevronDown size={16} /></span>
             <label className="field"><span className="field-label">ZIP/Postal Code<i> *</i></span><input /></label>
             <Checkbox checked={opt} onChange={() => setOpt(!opt)} label={f.subscribeOptIn} />
+            </div>
             <Button type="submit" size="md">{f.subscribeButton}</Button>
+            </div>
           </form>
         </div>
         <div className="footer-bottom">
@@ -264,7 +273,7 @@ export function Footer() {
           </div>
           <div className="footer-social">
             {social.map((I, i) => (
-              <I key={i} size={22} />
+              <I key={i} size={24} />
             ))}
           </div>
         </div>
