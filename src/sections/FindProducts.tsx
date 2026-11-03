@@ -189,7 +189,7 @@ export function FindProducts() {
   const [selected, setSelected] = useState<string[]>([]);
   const [sort, setSort] = useState<string>(sortOptions[0]);
   const [openGroups, setOpenGroups] = useState<Set<string>>(new Set([productCategories[0].group]));
-  const [panelOpen, setPanelOpen] = useState(false); // inline panel (desktop)
+  const [panelOpen, setPanelOpen] = useState(true); // inline panel (desktop) starts open (Collin, 2026-11-03); tablet/mobile use the overlay instead
   const [overlayOpen, setOverlayOpen] = useState(false); // filter overlay (narrow/mobile)
   const pageSize = b === "mobile" ? cfg.pageSizeMobile : cfg.pageSizeDesktop;
   const [limit, setLimit] = useState(pageSize);
